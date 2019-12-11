@@ -1,0 +1,4 @@
+<map id="PLCrashReportTextFormatter" name="PLCrashReportTextFormatter">
+<area shape="rect" id="node1" title="Formats PLCrashReport data as human&#45;readable text." alt="" coords="5,79,201,104"/>
+<area shape="rect" id="node2" href="$protocol_p_l_crash_report_formatter-p.html" title="A crash report formatter accepts a PLCrashReport instance, formats it according to implementation&#45;spe..." alt="" coords="10,5,196,31"/>
+</map>
