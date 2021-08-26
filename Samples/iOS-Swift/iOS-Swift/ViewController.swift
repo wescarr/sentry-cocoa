@@ -97,16 +97,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func captureTransaction(_ sender: Any) {
-        let transaction = SentrySDK.startTransaction(name: "Load Messages", operation: "ui.load")
-        
-        let getMessagesSpan = transaction.startChild(operation: "http.client", description: "Fetch messages")
         getMessages { messages in
-            getMessagesSpan.finish()
-            
-            let renderSpan = transaction.startChild(operation: "ui.render", description: "Render messages")
             renderMessages(messages: messages)
-            renderSpan.finish()
-            transaction.finish(status: .ok)
         }
     }
    

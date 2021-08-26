@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options.dsn = dsn
             options.debug = true
             options.environment = "Workshop"
-            options.tracesSampleRate = 1.0
         }
         
         return true

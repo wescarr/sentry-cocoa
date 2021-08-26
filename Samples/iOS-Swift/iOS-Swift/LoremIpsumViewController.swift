@@ -8,16 +8,8 @@ class LoremIpsumViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dispatchQueue = DispatchQueue(label: "LoremIpsumViewController")
-        
-        dispatchQueue.async {
-            let span = SentrySDK.span?.startChild(operation: "io.db", description: "Load Lorem Ipsum")
-            let text = self.loadText()
-            span?.finish()
-            DispatchQueue.main.sync {
-                self.textView.text = text
-            }
-        }
+        let text = self.loadText()
+        self.textView.text = text
     }
     
     private func loadText() -> String {
