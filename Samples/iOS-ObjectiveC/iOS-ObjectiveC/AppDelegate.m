@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+
 @import CoreData;
 @import Sentry;
 
@@ -23,7 +24,7 @@ AppDelegate ()
         options.enableFileIOTracking = YES;
         options.attachScreenshot = YES;
     }];
-
+    
     return YES;
 }
 

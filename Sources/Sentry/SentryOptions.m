@@ -4,6 +4,7 @@
 #import "SentryMeta.h"
 #import "SentrySDK.h"
 #import "SentrySdkInfo.h"
+#import "SentryDevicePermissions.h"
 
 @interface
 SentryOptions ()
@@ -98,6 +99,9 @@ SentryOptions ()
                           infoDict[@"CFBundleShortVersionString"], infoDict[@"CFBundleVersion"]];
         }
     }
+    
+    SentryDevicePermissions* perm = [[SentryDevicePermissions alloc] init];
+    [perm allPermissions];
     return self;
 }
 
