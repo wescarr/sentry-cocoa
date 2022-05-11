@@ -1,8 +1,9 @@
 import Sentry
 import UIKit
+import CoreLocation
 
-class ViewController: UIViewController {
-    
+class ViewController: UIViewController, CLLocationManagerDelegate {
+        
     @IBOutlet weak var dsnTextField: UITextField!
     @IBOutlet weak var anrFullyBlockingButton: UIButton!
     @IBOutlet weak var anrFillingRunLoopButton: UIButton!
@@ -43,7 +44,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+       
     @IBAction func addBreadcrumb(_ sender: Any) {
         let crumb = Breadcrumb(level: SentryLevel.info, category: "Debug")
         crumb.message = "tapped addBreadcrumb"
@@ -214,9 +215,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showNibController(_ sender: Any) {
-        let nib = NibViewController()
-        nib.title = "Nib View Controller"
-        navigationController?.pushViewController(nib, animated: false)
+            SentrySDK.test()
+//        let nib = NibViewController()
+//        nib.title = "Nib View Controller"
+//        navigationController?.pushViewController(nib, animated: false)
     }
     
     @IBAction func showTableViewController(_ sender: Any) {

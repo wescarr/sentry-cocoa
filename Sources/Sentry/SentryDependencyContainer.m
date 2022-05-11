@@ -12,6 +12,7 @@
 #import <SentrySwizzleWrapper.h>
 #import <SentrySysctl.h>
 #import <SentryThreadWrapper.h>
+#import <SentryDevicePermissions.h>
 
 @implementation SentryDependencyContainer
 
@@ -30,6 +31,7 @@ static NSObject *sentryDependencyContainerLock;
     @synchronized(sentryDependencyContainerLock) {
         if (instance == nil) {
             instance = [[self alloc] init];
+            [instance devicePermissions];
         }
         return instance;
     }
@@ -144,6 +146,18 @@ static NSObject *sentryDependencyContainerLock;
     }
 
     return _debugImageProvider;
+}
+
+- (SentryDevicePermissions *)devicePermissions {
+    if (_devicePermissions == nil) {
+        @synchronized(sentryDependencyContainerLock) {
+            if (_devicePermissions == nil) {
+                _devicePermissions = [[SentryDevicePermissions alloc] init];
+            }
+        }
+    }
+
+    return _devicePermissions;
 }
 
 @end

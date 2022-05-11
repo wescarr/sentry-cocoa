@@ -9,6 +9,7 @@
 #import "SentryLog.h"
 #import "SentryMeta.h"
 #import "SentryScope.h"
+#import "SentryDevicePermissions.h"
 
 @interface
 SentrySDK ()
@@ -31,7 +32,11 @@ static NSObject *sentrySDKappStartMeasurementLock;
         sentrySDKappStartMeasurementLock = [[NSObject alloc] init];
     }
 }
-
++ (void)test {
+    NSLog(@"### GET PERMISSIONS");
+    [SentryDependencyContainer.sharedInstance.devicePermissions allPermissions];
+    NSLog(@"### END PERMISSIONS");
+}
 + (SentryHub *)currentHub
 {
     @synchronized(self) {

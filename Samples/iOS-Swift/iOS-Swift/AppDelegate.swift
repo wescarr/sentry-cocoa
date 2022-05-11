@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options.beforeSend = { event in
                 return event
             }
-            options.debug = true
+            //options.debug = true
             // Sampling 100% - In Production you probably want to adjust this
             options.tracesSampleRate = 1.0
             options.sessionTrackingIntervalMillis = 5_000
@@ -27,6 +27,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             options.enableCoreDataTracking = true
             options.enableProfiling = true
             options.attachScreenshot = true
+        }
+
+        NSLog("### Dae")
+        if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().getNotificationSettings {
+                print($0)
+                NSLog("### Dae")
+            }
+        } else {
+            // Fallback on earlier versions
         }
         
         return true

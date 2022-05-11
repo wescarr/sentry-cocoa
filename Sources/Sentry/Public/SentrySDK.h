@@ -27,6 +27,9 @@ SENTRY_NO_INIT
  */
 @property (class, nonatomic, readonly) BOOL isEnabled;
 
+
++ (void)test;
+
 /**
  * Inits and configures Sentry (SentryHub, SentryClient) and sets up all integrations.
  */
