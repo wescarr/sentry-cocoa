@@ -60,6 +60,53 @@ SentryUIViewControllerSwizzling ()
 
 - (void)start
 {
+    NSString *swiftUIImageName = nil;
+    unsigned int imagesCount = 0;
+    const char **images = objc_copyImageNames(&imagesCount);
+    for (int i = 0; i < imagesCount; i++) {
+        NSString *imagesName = [NSString stringWithUTF8String:images[i]];
+        if ([imagesName containsString:@"SwiftUI.framework"]) {
+            swiftUIImageName = imagesName;
+            break;
+        }
+    }
+    free(images);
+    
+//    if (swiftUIImageName) {
+//        [self.subClassFinder
+//            actOnSubclassesOfViewControllerInImage:swiftUIImageName
+//                                             block:^(Class class) {
+//                                                 [self swizzleViewControllerSubClass:class];
+//                                             }];
+//    }
+    
+//    int count = objc_getClassList(NULL, 0);
+//    Class *classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * count);
+//    count = objc_getClassList(classes, count);
+//    [SentryLog logWithMessage:[NSString stringWithFormat:@"Number of classes:%d", count] andLevel:kSentryLevelDebug];
+//    free(classes);
+    
+//    for (int i = 1; i < 20; i++) {
+//        dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW,
+//        (int64_t)(0.02 * i * NSEC_PER_SEC));
+//        dispatch_after(delay, dispatch_get_main_queue(), ^
+//        {
+//            int count = objc_getClassList(NULL, 0);
+//            Class *classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * count);
+//            count = objc_getClassList(classes, count);
+//            [SentryLog logWithMessage:[NSString stringWithFormat:@"Number of classes:%d", count] andLevel:kSentryLevelDebug];
+//            free(classes);
+//        });
+//    }
+    
+    if (@available(iOS 13.0, tvOS 13.0, macCatalyst 13.0, *)) {
+        [NSNotificationCenter.defaultCenter
+            addObserver:self
+         selector:@selector(swizzleRootViewControllerFromSceneDelegateNotification:)
+                   name:UISceneWillConnectNotification
+                 object:nil];
+    }
+        
     id<SentryUIApplication> app = [self findApp];
     if (app != nil) {
 
@@ -94,8 +141,22 @@ SentryUIViewControllerSwizzling ()
 
         [self swizzleAllSubViewControllersInApp:app];
     }
+    
+    [NSNotificationCenter.defaultCenter
+        addObserver:self
+     selector:@selector(swizzleMe)
+               name:UIApplicationDidBecomeActiveNotification
+             object:nil];
 
     [self swizzleUIViewController];
+}
+
+-(void)swizzleMe {
+    [self.subClassFinder
+        actOnSubclassesOfViewControllerInImage:@""
+                                         block:^(Class class) {
+                                             [self swizzleViewControllerSubClass:class];
+                                         }];
 }
 
 - (id<SentryUIApplication>)findApp
@@ -254,7 +315,7 @@ SentryUIViewControllerSwizzling ()
     for (UIViewController *viewController in allViewControllers) {
         Class viewControllerClass = [viewController class];
         if (viewControllerClass != nil) {
-            NSString *message = @"UIViewControllerSwizziling Calling swizzleRootViewController.";
+            NSString *message = [NSString stringWithFormat: @"UIViewControllerSwizziling Calling swizzleRootViewController for %@", rootViewController.class];
             [SentryLog logWithMessage:message andLevel:kSentryLevelDebug];
 
             [self swizzleViewControllerSubClass:viewControllerClass];

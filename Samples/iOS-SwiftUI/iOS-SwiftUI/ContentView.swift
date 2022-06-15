@@ -119,9 +119,14 @@ struct ContentView: View {
             Button(action: oomCrashAction) {
                 Text("OOM Crash")
             }
+        }.onAppear {
+            let crumb = Breadcrumb(level: .debug, category: "ui.lifecycle")
+            crumb.message = "SwiftUI onAppear"
+            SentrySDK.addBreadcrumb(crumb: crumb)
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

@@ -247,8 +247,11 @@ SentryUIViewControllerPerformanceTracker ()
                   target:controller
         callbackToOrigin:callbackToOrigin
                    block:^{
-                       SentrySpanId *spanId = objc_getAssociatedObject(
+        [self createTransaction:controller];
+        SentrySpanId *spanId = objc_getAssociatedObject(
                            controller, &SENTRY_UI_PERFORMANCE_TRACKER_SPAN_ID);
+        
+                        
 
                        if (spanId == nil || ![self.tracker isSpanAlive:spanId]) {
                            // We are no longer tracking this UIViewController, just call the base

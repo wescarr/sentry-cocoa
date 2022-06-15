@@ -35,10 +35,19 @@ SentrySubClassFinder ()
             return;
         }
 
-        unsigned int count = 0;
-        const char **classes = [self.objcRuntimeWrapper
-            copyClassNamesForImage:[imageName cStringUsingEncoding:NSUTF8StringEncoding]
-                            amount:&count];
+//        unsigned int count = 0;
+//        const char **classes = [self.objcRuntimeWrapper
+//            copyClassNamesForImage:[imageName cStringUsingEncoding:NSUTF8StringEncoding]
+//                            amount:&count];
+        
+        int count = objc_getClassList(NULL, 0);
+        Class *classes = (__unsafe_unretained Class *)malloc(sizeof(Class) * count);
+        count = objc_getClassList(classes, count);
+
+        if (count <= 0) {
+            [SentryLog logWithMessage:@"No classes found when retrieving class list."
+                             andLevel:kSentryLevelError];
+        }
 
         // Storing the actual classes in an NSArray would call initializer of the class, which we
         // must avoid as we are on a background thread here and dealing with UIViewControllers,
@@ -52,11 +61,14 @@ SentrySubClassFinder ()
         // fast and we don't need to include this restriction that will cause confusion.
         // In a project with 1000 classes (a big project), it took only ~3ms to check all classes.
         NSMutableArray<NSString *> *classesToSwizzle = [NSMutableArray new];
+        NSMutableArray<NSString *> *classesNotToSwizzle = [NSMutableArray new];
         for (int i = 0; i < count; i++) {
-            NSString *className = [NSString stringWithUTF8String:classes[i]];
-            Class class = NSClassFromString(className);
+            Class class = classes[i];
+            NSString *className = NSStringFromClass(class);
             if ([self isClass:class subClassOf:viewControllerClass]) {
                 [classesToSwizzle addObject:className];
+            } else {
+                [classesNotToSwizzle addObject:className];
             }
         }
 
@@ -69,8 +81,13 @@ SentrySubClassFinder ()
             [SentryLog
                 logWithMessage:[NSString stringWithFormat:@"The following UIViewControllers will "
                                                           @"generate automatic transactions: %@",
-                                         [classesToSwizzle componentsJoinedByString:@", "]]
+                                         [classesToSwizzle componentsJoinedByString:@"\n"]]
                       andLevel:kSentryLevelDebug];
+            
+//            [SentryLog
+//                logWithMessage:[NSString stringWithFormat:@"The following classes are not swizzled: %@",
+//                                         [classesNotToSwizzle componentsJoinedByString:@"\n"]]
+//                      andLevel:kSentryLevelDebug];
         }];
     }];
 }
