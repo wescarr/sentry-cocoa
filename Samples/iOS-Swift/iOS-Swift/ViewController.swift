@@ -7,6 +7,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var anrFullyBlockingButton: UIButton!
     @IBOutlet weak var anrFillingRunLoopButton: UIButton!
     @IBOutlet weak var framesLabel: UILabel!
+    @IBOutlet weak var benchmarkProfilerSwitch: UISwitch!
     @IBOutlet weak var breadcrumbLabel: UILabel!
     
     private let dispatchQueue = DispatchQueue(label: "ViewController")
@@ -271,9 +272,13 @@ class ViewController: UIViewController {
     }
 
     @IBAction func performanceScenarios(_ sender: Any) {
-        let controller = BenchmarkingViewController()
-        controller.title = "Performance Scenarios"
-        navigationController?.pushViewController(controller, animated: false)
+        if #available(iOS 10.0, *) {
+            let controller = BenchmarkingViewController()
+            controller.title = "Performance Scenarios"
+            navigationController?.pushViewController(controller, animated: false)
+        } else {
+            fatalError("Only available on iOS 10 or later.")
+        }
     }
 
     @IBAction func permissions(_ sender: Any) {

@@ -52,8 +52,8 @@
         NSInteger appSystemTime = [values[2] integerValue];
         NSInteger appUserTime = [values[3] integerValue];
 
-        NSLog(@"[Sentry Benchmark] %ld,%ld,%ld,%ld", profilerSystemTime, profilerUserTime,
-            appSystemTime, appUserTime);
+        NSLog(@"[Sentry Benchmark] %ld,%ld,%ld,%ld", (long)profilerSystemTime, (long)profilerUserTime,
+              (long)appSystemTime, (long)appUserTime);
 
         double usagePercentage
             = 100.0 * (profilerUserTime + profilerSystemTime) / (appUserTime + appSystemTime);

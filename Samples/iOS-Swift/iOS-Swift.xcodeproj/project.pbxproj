@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0AAAB8572887F7C60011845C /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AABE2E928855FF80057ED69 /* PermissionsViewController.swift */; };
 		0AABE2EA28855FF80057ED69 /* PermissionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AABE2E928855FF80057ED69 /* PermissionsViewController.swift */; };
+		49A51B8B28D2A2520068E5D0 /* mobydick.txt in Resources */ = {isa = PBXBuildFile; fileRef = 49A51B8928D2A2520068E5D0 /* mobydick.txt */; };
 		630853532440C60F00DDE4CE /* Sentry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630853322440C44F00DDE4CE /* Sentry.framework */; };
 		637AFDAA243B02760034958B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637AFDA9243B02760034958B /* AppDelegate.swift */; };
 		637AFDAE243B02760034958B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637AFDAD243B02760034958B /* ViewController.swift */; };
@@ -223,6 +224,7 @@
 
 /* Begin PBXFileReference section */
 		0AABE2E928855FF80057ED69 /* PermissionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsViewController.swift; sourceTree = "<group>"; };
+		49A51B8928D2A2520068E5D0 /* mobydick.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mobydick.txt; sourceTree = "<group>"; };
 		6308532C2440C44F00DDE4CE /* Sentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sentry.xcodeproj; path = ../../Sentry.xcodeproj; sourceTree = "<group>"; };
 		637AFDA6243B02760034958B /* iOS-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		637AFDA9243B02760034958B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				637AFDB2243B02770034958B /* Assets.xcassets */,
 				7B3427F725876A5200056519 /* Tongariro.jpg */,
 				7BFC8B0526D4D24B000D3504 /* LoremIpsum.txt */,
+				49A51B8928D2A2520068E5D0 /* mobydick.txt */,
 				637AFDB4243B02770034958B /* LaunchScreen.storyboard */,
 				637AFDB7243B02770034958B /* Info.plist */,
 				D845F35927BAD4CC00A4D7A2 /* SentryData.xcdatamodeld */,
@@ -719,6 +722,7 @@
 				D890CD3C26CEE2FA001246CF /* NibViewController.xib in Resources */,
 				7BFC8B0626D4D24B000D3504 /* LoremIpsum.txt in Resources */,
 				637AFDB6243B02770034958B /* LaunchScreen.storyboard in Resources */,
+				49A51B8B28D2A2520068E5D0 /* mobydick.txt in Resources */,
 				7B3427F825876A5200056519 /* Tongariro.jpg in Resources */,
 				637AFDB3243B02770034958B /* Assets.xcassets in Resources */,
 				637AFDB1243B02760034958B /* Main.storyboard in Resources */,
