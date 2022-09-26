@@ -78,6 +78,28 @@ profilerTruncationReasonName(SentryProfilerTruncationReason reason)
     }
 }
 
+namespace {
+NSString *
+getDeviceModel()
+{
+    utsname info;
+    if (SENTRY_PROF_LOG_ERRNO(uname(&info)) == 0) {
+        return [NSString stringWithUTF8String:info.machine];
+    }
+    return @"";
+}
+
+NSString *
+getOSBuildNumber()
+{
+    char str[32];
+    size_t size = sizeof(str);
+    int cmd[2] = { CTL_KERN, KERN_OSVERSION };
+    if (SENTRY_PROF_LOG_ERRNO(sysctl(cmd, sizeof(cmd) / sizeof(*cmd), str, &size, NULL, 0)) == 0) {
+        return [NSString stringWithUTF8String:str];
+    }
+}
+
 @implementation SentryProfiler {
     NSMutableDictionary<NSString *, id> *_profile;
     uint64_t _startTimestamp;
