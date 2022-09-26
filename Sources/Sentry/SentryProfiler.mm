@@ -192,6 +192,7 @@ getOSBuildNumber()
 
 + (void)stopProfilingSpan:(id<SentrySpan>)span
 {
+    SENTRY_LOG_DEBUG(@"stopProfilingWithSpan:");
 #    if SENTRY_TARGET_PROFILING_SUPPORTED
     std::lock_guard<std::mutex> l(_gProfilerLock);
 
@@ -228,6 +229,7 @@ getOSBuildNumber()
 
 + (void)linkTransaction:(SentryTransaction *)transaction
 {
+    SENTRY_LOG_DEBUG(@"linkTransaction:");
 #    if SENTRY_TARGET_PROFILING_SUPPORTED
     std::lock_guard<std::mutex> l(_gProfilerLock);
 
@@ -264,7 +266,7 @@ getOSBuildNumber()
         [profiler captureEnvelope];
         [profiler->_transactions removeAllObjects];
     } else {
-        SENTRY_LOG_DEBUG(@"Profiler %@ is waiting for more spans to complete.", profiler);
+        SENTRY_LOG_DEBUG(@"Profiler %@ is waiting for more spans to complete: %@.", profiler, profiler->_spansInFlight);
     }
 }
 
