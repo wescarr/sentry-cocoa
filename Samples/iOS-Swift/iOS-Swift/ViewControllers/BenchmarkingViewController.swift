@@ -85,6 +85,8 @@ class BenchmarkingViewController: UIViewController {
         case .data_compress: return ("Data compression", dataCompress)
         case .data_encrypt: return ("Data encrypt", dataEncrypt)
         case .data_shasum: return ("Data SHA1 sum", dataSHA)
+        case .data_json_serialize: return ("JSON Encode", jsonEncode)
+        case .data_json_deserialize: return ("JSON Decode", jsonDecode)
         }
     }
 
@@ -93,6 +95,7 @@ class BenchmarkingViewController: UIViewController {
         case .cpu_100percent, .cpu_idle: return (0, "CPU")
         case .fileIO_write, .fileIO_read: return (1, "File I/O")
         case .scrollTableView, .renderImage: return (2, "UI Events")
+        case .data_json_serialize, .data_json_deserialize: return (2, "JSON")
         case .network_download, .network_upload, .network_stream_up, .network_stream_down, .network_stream_both: return (3, "Networking")
         case .renderWebpageInWebKit: return (4, "WebKit")
         case .coreData_loadDB_Empty, .coreData_loadDB_WithEntities, .coreData_entity_create, .coreData_entity_fetch, .coreData_entity_update, .coreData_entity_delete: return (5, "CoreData")
@@ -355,6 +358,17 @@ private extension BenchmarkingViewController {
         } else {
             fatalError("Only available on iOS 13 or later.")
         }
+    }
+}
+
+// MARK: JSON
+private extension BenchmarkingViewController {
+    func jsonDecode() {
+
+    }
+
+    func jsonEncode() {
+
     }
 }
 
