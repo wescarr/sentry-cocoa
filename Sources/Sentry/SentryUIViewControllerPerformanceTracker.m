@@ -58,6 +58,7 @@ SentryUIViewControllerPerformanceTracker ()
                   target:controller
         callbackToOrigin:callbackToOrigin
                    block:^{
+        SENTRY_LOG_DEBUG(@"Tracking UIViewController.loadView");
                        [self createTransaction:controller];
 
                        [self measurePerformance:@"loadView"
@@ -73,6 +74,7 @@ SentryUIViewControllerPerformanceTracker ()
                   target:controller
         callbackToOrigin:callbackToOrigin
                    block:^{
+        SENTRY_LOG_DEBUG(@"Tracking UIViewController.viewDidLoad");
                        [self createTransaction:controller];
 
                        [self measurePerformance:@"viewDidLoad"
@@ -93,6 +95,7 @@ SentryUIViewControllerPerformanceTracker ()
         spanId = [self.tracker startSpanWithName:name
                                       nameSource:kSentryTransactionNameSourceComponent
                                        operation:SentrySpanOperationUILoad];
+        SENTRY_LOG_DEBUG(@"Started span with id %@ to track view controller.", spanId.sentrySpanIdString);
 
         // Use the target itself to store the spanId to avoid using a global mapper.
         objc_setAssociatedObject(controller, &SENTRY_UI_PERFORMANCE_TRACKER_SPAN_ID, spanId,
@@ -115,6 +118,7 @@ SentryUIViewControllerPerformanceTracker ()
         }
 
         void (^duringBlock)(void) = ^{
+            SENTRY_LOG_DEBUG(@"Tracking UIViewController.viewWillAppear");
             [self.tracker measureSpanWithDescription:@"viewWillAppear"
                                           nameSource:kSentryTransactionNameSourceComponent
                                            operation:SentrySpanOperationUILoad
@@ -142,6 +146,7 @@ SentryUIViewControllerPerformanceTracker ()
 - (void)viewControllerViewDidAppear:(UIViewController *)controller
                    callbackToOrigin:(void (^)(void))callbackToOrigin
 {
+    SENTRY_LOG_DEBUG(@"Tracking UIViewController.viewDidAppear");
     [self finishTransaction:controller
                      status:kSentrySpanStatusOk
             lifecycleMethod:@"viewDidAppear"

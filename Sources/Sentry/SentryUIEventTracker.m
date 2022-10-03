@@ -4,6 +4,7 @@
 #import <SentrySDK+Private.h>
 #import <SentrySDK.h>
 #import <SentryScope.h>
+#import <SentrySpanId.h>
 #import <SentrySpanOperations.h>
 #import <SentrySpanProtocol.h>
 #import <SentryTracer.h>
@@ -51,7 +52,13 @@ SentryUIEventTracker ()
 {
     [self.swizzleWrapper
         swizzleSendAction:^(NSString *action, id target, id sender, UIEvent *event) {
-            if (target == nil || sender == nil) {
+            if (target == nil) {
+                SENTRY_LOG_DEBUG(@"Target was nil for action %@; won't capture in transaction (sender: %@; event: %@)", action, sender, event);
+                return;
+            }
+
+            if (sender == nil) {
+                SENTRY_LOG_DEBUG(@"Sender was nil for action %@; won't capture in transaction (target: %@; event: %@)", action, sender, event);
                 return;
             }
 
@@ -63,6 +70,7 @@ SentryUIEventTracker ()
 
             NSString *targetClass = NSStringFromClass([target class]);
             if ([targetClass containsString:@"SwiftUI"]) {
+                SENTRY_LOG_DEBUG(@"Won't record transaction for SwiftUI target event.");
                 return;
             }
 
@@ -79,6 +87,7 @@ SentryUIEventTracker ()
             BOOL sameAction =
                 [currentActiveTransaction.transactionContext.name isEqualToString:transactionName];
             if (sameAction) {
+                SENTRY_LOG_DEBUG(@"Dispatching idle timeout for transaction with span id %@", currentActiveTransaction.context.spanId.sentrySpanIdString);
                 [currentActiveTransaction dispatchIdleTimeout];
                 return;
             }
@@ -86,11 +95,7 @@ SentryUIEventTracker ()
             [currentActiveTransaction finish];
 
             if (currentActiveTransaction) {
-                [SentryLog
-                    logWithMessage:
-                        [NSString stringWithFormat:@"SentryUIEventTracker finished transaction %@",
-                                  currentActiveTransaction.transactionContext.name]
-                          andLevel:kSentryLevelDebug];
+                SENTRY_LOG_DEBUG(@"SentryUIEventTracker finished transaction %@", currentActiveTransaction.transactionContext.name);
             }
 
             NSString *operation = [self getOperation:sender];
