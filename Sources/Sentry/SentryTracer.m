@@ -429,7 +429,7 @@ static BOOL appStartMeasurementRead;
         return;
     }
 
-    if (!self.wasFinishCalled || hasUnfinishedChildSpansToWaitFor)
+    if (!self.wasFinishCalled || hasUnfinishedChildSpansToWaitFor) {
         SENTRY_LOG_DEBUG(@"Root span with id %@ has children but isn't waiting for them right now.", self.rootSpan.context.spanId.sentrySpanIdString);
         return;
     }
