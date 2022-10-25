@@ -58,7 +58,7 @@ SentryUIViewControllerPerformanceTracker ()
                   target:controller
         callbackToOrigin:callbackToOrigin
                    block:^{
-        SENTRY_LOG_DEBUG(@"Tracking UIViewController.loadView");
+                       SENTRY_LOG_DEBUG(@"Tracking UIViewController.loadView");
                        [self createTransaction:controller];
 
                        [self measurePerformance:@"loadView"
@@ -74,7 +74,7 @@ SentryUIViewControllerPerformanceTracker ()
                   target:controller
         callbackToOrigin:callbackToOrigin
                    block:^{
-        SENTRY_LOG_DEBUG(@"Tracking UIViewController.viewDidLoad");
+                       SENTRY_LOG_DEBUG(@"Tracking UIViewController.viewDidLoad");
                        [self createTransaction:controller];
 
                        [self measurePerformance:@"viewDidLoad"
@@ -95,7 +95,8 @@ SentryUIViewControllerPerformanceTracker ()
         spanId = [self.tracker startSpanWithName:name
                                       nameSource:kSentryTransactionNameSourceComponent
                                        operation:SentrySpanOperationUILoad];
-        SENTRY_LOG_DEBUG(@"Started span with id %@ to track view controller.", spanId.sentrySpanIdString);
+        SENTRY_LOG_DEBUG(
+            @"Started span with id %@ to track view controller.", spanId.sentrySpanIdString);
 
         // Use the target itself to store the spanId to avoid using a global mapper.
         objc_setAssociatedObject(controller, &SENTRY_UI_PERFORMANCE_TRACKER_SPAN_ID, spanId,

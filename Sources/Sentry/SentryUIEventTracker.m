@@ -53,12 +53,16 @@ SentryUIEventTracker ()
     [self.swizzleWrapper
         swizzleSendAction:^(NSString *action, id target, id sender, UIEvent *event) {
             if (target == nil) {
-                SENTRY_LOG_DEBUG(@"Target was nil for action %@; won't capture in transaction (sender: %@; event: %@)", action, sender, event);
+                SENTRY_LOG_DEBUG(@"Target was nil for action %@; won't capture in transaction "
+                                 @"(sender: %@; event: %@)",
+                    action, sender, event);
                 return;
             }
 
             if (sender == nil) {
-                SENTRY_LOG_DEBUG(@"Sender was nil for action %@; won't capture in transaction (target: %@; event: %@)", action, sender, event);
+                SENTRY_LOG_DEBUG(@"Sender was nil for action %@; won't capture in transaction "
+                                 @"(target: %@; event: %@)",
+                    action, sender, event);
                 return;
             }
 
@@ -87,7 +91,8 @@ SentryUIEventTracker ()
             BOOL sameAction =
                 [currentActiveTransaction.transactionContext.name isEqualToString:transactionName];
             if (sameAction) {
-                SENTRY_LOG_DEBUG(@"Dispatching idle timeout for transaction with span id %@", currentActiveTransaction.context.spanId.sentrySpanIdString);
+                SENTRY_LOG_DEBUG(@"Dispatching idle timeout for transaction with span id %@",
+                    currentActiveTransaction.context.spanId.sentrySpanIdString);
                 [currentActiveTransaction dispatchIdleTimeout];
                 return;
             }
@@ -95,7 +100,8 @@ SentryUIEventTracker ()
             [currentActiveTransaction finish];
 
             if (currentActiveTransaction) {
-                SENTRY_LOG_DEBUG(@"SentryUIEventTracker finished transaction %@", currentActiveTransaction.transactionContext.name);
+                SENTRY_LOG_DEBUG(@"SentryUIEventTracker finished transaction %@",
+                    currentActiveTransaction.transactionContext.name);
             }
 
             NSString *operation = [self getOperation:sender];

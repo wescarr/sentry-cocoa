@@ -131,7 +131,8 @@ SentrySpan ()
         self.timestamp = [SentryCurrentDate date];
     }
     if (self.tracer == nil) {
-        SENTRY_LOG_DEBUG(@"No tracer associated with span with id %@", _context.spanId.sentrySpanIdString);
+        SENTRY_LOG_DEBUG(
+            @"No tracer associated with span with id %@", _context.spanId.sentrySpanIdString);
         return;
     }
     [self.tracer spanFinished:self];
